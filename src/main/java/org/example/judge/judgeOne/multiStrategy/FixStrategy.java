@@ -1,0 +1,12 @@
+package org.example.judge.judgeOne.multiStrategy;
+
+import org.example.exams.exam.question.Question;
+import org.example.papers.paper.answer.Answer;
+
+public class FixStrategy implements strategy {
+
+    @Override
+    public int calPartial(Question q, Answer an) {
+        return q.getFixScore();
+    }
+}
