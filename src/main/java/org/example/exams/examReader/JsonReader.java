@@ -51,9 +51,8 @@ public class JsonReader extends AbstractReader{
                 }
 
                 Object answerObject = question.opt("answer");
-                if (answerObject == null) {
-                    q.addQuestion(0);
-                } else if (answerObject instanceof Integer) {
+
+                if (answerObject instanceof Integer) {
                     // 如果答案是一个整数
                     q.addQuestion((int) answerObject);
                 } else if (answerObject instanceof JSONArray) {
@@ -63,6 +62,17 @@ public class JsonReader extends AbstractReader{
                         q.addQuestion(answerArray.getInt(j));
                     }
                 }
+
+                JSONArray samples = question.optJSONArray("samples");
+                if (samples != null) {
+                    for (int j = 0; j < samples.length(); j++) {
+                        JSONObject sample = samples.getJSONObject(j);
+                        String input = sample.getString("input");
+                        String output = sample.getString("output");
+                        q.addSample(input, output);
+                    }
+                }
+
                 exam.addQuestion(q);
             }
 

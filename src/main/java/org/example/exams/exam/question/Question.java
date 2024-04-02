@@ -1,37 +1,25 @@
 package org.example.exams.exam.question;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 public class Question {
-    @Getter
-    @Setter
     private int id;
-    @Getter
-    @Setter
     private int type;
-    @Getter
-    @Setter
     private List<Integer> question;
-    @Getter
-    @Setter
     private List<Integer> partialScore;
-    @Getter
-    @Setter
     private String scoreMode;
-    @Getter
-    @Setter
     private int points;
-    @Getter
-    @Setter
     private int fixScore;
+    private List<String []> samples;
 
     public Question() {
         question = new ArrayList<>();
         partialScore = new ArrayList<>();
+        samples = new ArrayList<>();
     }
 
     public void addQuestion(int q) {
@@ -40,5 +28,9 @@ public class Question {
 
     public void addPartialScore(int s) {
         partialScore.add(s);
+    }
+
+    public void addSample(String input, String output) {
+        samples.add(new String[]{input, output});
     }
 }

@@ -1,13 +1,10 @@
 package org.example.papers.paper.answer;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
+@Data
 public class Answer {
-    @Getter
-    @Setter
     private int id;
-    @Getter
-    @Setter
     private String answer;
+    private int score;
 }

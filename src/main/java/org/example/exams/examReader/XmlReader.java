@@ -50,13 +50,18 @@ public class XmlReader extends AbstractReader{
                     }
                 }
 
-                if (answerNodes.getLength() == 0) {
-                    q.addQuestion(0);
-                }
                 for (int j = 0; j < answerNodes.getLength(); j++) {
                     Element answerElement = (Element) answerNodes.item(j);
                     String answer = answerElement.getTextContent();
                     q.addQuestion(Integer.parseInt(answer));
+                }
+
+                NodeList sampleNodes = questionElement.getElementsByTagName("sample");
+                for (int j = 0; j < sampleNodes.getLength(); j++) {
+                    Element sampleElement = (Element) sampleNodes.item(j);
+                    String input = sampleElement.getElementsByTagName("input").item(0).getTextContent();
+                    String output = sampleElement.getElementsByTagName("output").item(0).getTextContent();
+                    q.addSample(input, output);
                 }
                 exam.addQuestion(q);
             }

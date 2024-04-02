@@ -23,6 +23,6 @@ public class Main {
 
         exams.readExams(examsPath);
         papers.readPapers(answersPath);
-        judge.onlineJudge(exams, papers, output);
+        judge.onlineJudge(exams, papers, output, answersPath);
     }
 }
