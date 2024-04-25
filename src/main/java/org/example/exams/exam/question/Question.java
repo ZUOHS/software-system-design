@@ -12,6 +12,7 @@ public class Question {
     private List<Integer> question;
     private List<Integer> partialScore;
     private String scoreMode;
+    private int timeLimit;
     private int points;
     private int fixScore;
     private List<String []> samples;

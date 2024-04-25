@@ -71,6 +71,7 @@ public class JsonReader extends AbstractReader{
                         String output = sample.getString("output");
                         q.addSample(input, output);
                     }
+                    q.setTimeLimit(question.getInt("timeLimit"));
                 }
 
                 exam.addQuestion(q);

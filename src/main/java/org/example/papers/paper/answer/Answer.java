@@ -7,4 +7,9 @@ public class Answer {
     private int id;
     private String answer;
     private int score;
+    private int complexity;
+    public Answer() {
+        score = -1;
+        complexity = -2;
+    }
 }

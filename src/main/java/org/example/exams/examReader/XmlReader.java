@@ -63,6 +63,9 @@ public class XmlReader extends AbstractReader{
                     String output = sampleElement.getElementsByTagName("output").item(0).getTextContent();
                     q.addSample(input, output);
                 }
+                if (q.getType() == 3) {
+                    q.setTimeLimit(Integer.parseInt(questionElement.getElementsByTagName("timeLimit").item(0).getTextContent()));
+                }
                 exam.addQuestion(q);
             }
         } catch (Exception e) {

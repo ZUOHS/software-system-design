@@ -16,6 +16,14 @@ public class Main {
         // TODO:在下面调用你实现的功能
 
         System.out.println(output);
+        if (output.endsWith("output.csv")) {
+            output = output.substring(0, output.length() - 10);
+        } else if (output.endsWith("output_complexity.csv")) {
+            output = output.substring(0, output.length() - 21);
+        } else {
+            System.out.println("Invalid output file name");
+            return;
+        }
 
         Exams exams = new Exams();
         Papers papers = new Papers();

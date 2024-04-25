@@ -1,25 +1,16 @@
 package org.example.papers.paper;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.example.papers.paper.answer.Answer;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 public class Paper {
-
-    @Getter
-    @Setter
     private int examId;
-    @Getter
-    @Setter
     private int stuId;
-    @Getter
-    @Setter
     private Long submitTime;
-    @Getter
-    @Setter
     private List<Answer> answersList;
 
     public Paper() {

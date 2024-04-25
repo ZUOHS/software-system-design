@@ -1,7 +1,6 @@
 package org.example.judge.judgeOne.codeRunner;
 
-import java.util.List;
 
 public interface CodeRunner {
-    public boolean runCode(String path, List<String []> samples, String name);
+    boolean runCode(String path, String[] samples, String name, int limit);
 }
