@@ -12,7 +12,14 @@ public class JudgeSingle implements JudgeOne {
     public int judgeOne(Question q, List<Answer> an, String path) {
         int left = q.getQuestion().get(0);
         for (Answer answer : an) {
+
+            if (!answer.isValid()) {
+                answer.setScore(0);
+                continue;
+            }
+
             int right = convertStringToIntArrayList(answer.getAnswer()).get(0);
+
             if (left == right) {
                 answer.setScore(q.getPoints());
             } else {

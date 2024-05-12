@@ -54,6 +54,11 @@ public class Judge {
                         .filter(paper -> paper.getExamId() == e.getId())
                         .sorted(Comparator.comparingInt(Paper::getStuId))
                         .collect(Collectors.toList());
+                for (Paper paper : filteredAndSortedPapers) {
+                    for (Answer answer : paper.getAnswersList()) {
+                        answer.setValid(paper.getSubmitTime() <= e.getEndTime() && paper.getSubmitTime() >= e.getStartTime());
+                    }
+                }
 
                 List<Question> questionList = e.getQuestions();
 

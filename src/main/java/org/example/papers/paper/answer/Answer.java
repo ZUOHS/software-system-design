@@ -8,6 +8,7 @@ public class Answer {
     private String answer;
     private int score;
     private int complexity;
+    private boolean valid;
     public Answer() {
         score = -1;
         complexity = -2;

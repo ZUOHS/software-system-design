@@ -1,10 +1,9 @@
 package org.example.judge.judgeOne;
 
 import org.example.exams.exam.question.Question;
-import org.example.judge.judgeOne.codeCalculator.JavaCalculator;
+import org.example.judge.judgeOne.codeCalculator.CodeCalculator;
 import org.example.judge.judgeOne.codeCompiler.CodeCompiler;
-import org.example.judge.judgeOne.codeCompiler.JavaCompile;
-import org.example.judge.judgeOne.codeRunner.JavaRunner;
+import org.example.judge.judgeOne.codeRunner.CodeRunner;
 import org.example.judge.thread.CalculateTask;
 import org.example.judge.thread.CompileTask;
 import org.example.judge.thread.SampleRunTask;
@@ -14,7 +13,9 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-
+import static org.example.judge.judgeOne.codeCalculator.CalculatorFactory.getCalculator;
+import static org.example.judge.judgeOne.codeCompiler.CompilerFactory.getCompiler;
+import static org.example.judge.judgeOne.codeRunner.RunnerFactory.getRunner;
 
 
 public class JudgeCode implements JudgeOne {
@@ -30,9 +31,18 @@ public class JudgeCode implements JudgeOne {
             String temp = answer.getAnswer().replace("/", System.getProperty("file.separator"));
             String JavaPath = path + System.getProperty("file.separator") + temp;
             String JavaClassPath = Paths.get(JavaPath).getParent().toString();
+
+            CodeCalculator codeCalculator = getCalculator(JavaPath);
+            CalculateTask calculateTask = new CalculateTask(codeCalculator, JavaPath, answer);
+            threadPool.submit(calculateTask);
+
+            if (!answer.isValid()) {
+                answer.setScore(0);
+                continue;
+            }
             CountDownLatch compileLatch = new CountDownLatch(1);
 
-            CodeCompiler codeCompiler = new JavaCompile();
+            CodeCompiler codeCompiler = getCompiler(JavaPath);
             CompileTask compileTask = new CompileTask(codeCompiler, JavaPath, JavaClassPath, answer, compileLatch);
             threadPool.submit(compileTask);
 
@@ -42,14 +52,12 @@ public class JudgeCode implements JudgeOne {
                     continue; // Skip running samples if compilation failed
                 }
 
-                CalculateTask calculateTask = new CalculateTask(new JavaCalculator(), JavaPath, answer);
-                threadPool.submit(calculateTask);
-
                 answer.setScore(q.getPoints());
                 String mainClass = answer.getAnswer().substring(13, answer.getAnswer().length() - 5);
                 CountDownLatch runLatch = new CountDownLatch(q.getSamples().size());
                 for (String[] sample : q.getSamples()) {
-                    SampleRunTask runTask = new SampleRunTask(new JavaRunner(), JavaClassPath, sample, mainClass, answer, runLatch, q.getTimeLimit());
+                    CodeRunner codeRunner = getRunner(JavaPath);
+                    SampleRunTask runTask = new SampleRunTask(codeRunner, JavaClassPath, sample, mainClass, answer, runLatch, q.getTimeLimit());
                     threadPool.submit(runTask);
                 }
                 runLatch.await(); // Wait for all run tasks to complete

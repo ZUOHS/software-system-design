@@ -19,6 +19,11 @@ public class JudgeMulti implements JudgeOne {
     public int judgeOne(Question q, List<Answer> an, String path) {
         List<Integer> left = q.getQuestion();
         for (Answer answer : an) {
+            if (!answer.isValid()) {
+                answer.setScore(0);
+                continue;
+            }
+
             List<Integer> right = convertStringToIntArrayList(answer.getAnswer());
             //首先把答案错误的情况挑出来
 
